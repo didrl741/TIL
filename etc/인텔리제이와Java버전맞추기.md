@@ -1,13 +1,16 @@
 노트북에서 공부하던 스프링 프로젝트를 데스크탑에서도 해보고싶어서 데스크탑에 인텔리제이를 깔고 원드라이브에 있던 기존 인텔리제이 프로젝트를 실행시켜봤다.  
 그랬더니 Gradle JVM을 수정하여 사용하라고 에러문이 떴다.   
 JDK 버전이 안 맞아서 다음과 같이 자바의 문법들을 사용 못하게 된 것이다.   
+
+![20220627_153725](https://user-images.githubusercontent.com/97036481/175879236-291305e7-39b4-47cc-a523-b7564c3346be.png)
+
 다음 두가지를 체크해보자.
 
 ## 1. Gradle JVM을 버전에 맞게 설정하기
 
 JVM을 데스크탑의 JDK 버전으로 맞춰주니 해결 되었다.   
 
-
+![20220627_160233](https://user-images.githubusercontent.com/97036481/175879284-ff9afd36-3bf6-4776-9327-d6e9cf86bfd3.png)
 
 ## 2. Project SDK 버전 설정하기
 
@@ -16,6 +19,9 @@ JVM을 데스크탑의 JDK 버전으로 맞춰주니 해결 되었다.
 셋팅이 끝난 후, 다시 노트북으로 그 인텔리제이 프로젝트를 실행해보니 아까와 똑같은 gradle JVM 문제가 생겼다.   
 이번에는 jdk 17로 jvm을 수정하여도 고쳐지지 않아서   
 Project Structure -> Project Settings -> Project에서 SDK의 디폴트 셋팅을 17로 똑같이 고쳐주는 작업도 해서 해결했다.
+
+![20220627_154729](https://user-images.githubusercontent.com/97036481/175879298-0e9ac599-8915-4a95-9da8-cff90bc73ea2.png)
+
 
 
 
