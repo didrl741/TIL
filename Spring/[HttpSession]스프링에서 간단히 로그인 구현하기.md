@@ -141,3 +141,9 @@ public String submit(HttpServletRequest req){
 <br/>
 
 # 결과 캡쳐
+* 홈 화면   
+![20220714_163910](https://user-images.githubusercontent.com/97036481/178928753-fcec58f0-bad7-4a77-93ae-23c86d096ee4.png)
+![20220714_163943](https://user-images.githubusercontent.com/97036481/178928767-c341f0cf-3afa-484b-8eca-2601571d33a9.png)
+
+* 팝업 창   
+![20220714_164007](https://user-images.githubusercontent.com/97036481/178928773-d220ba66-f911-4fed-a533-c56638135d8a.png)
