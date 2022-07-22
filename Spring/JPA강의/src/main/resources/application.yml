@@ -1,0 +1,27 @@
+server:
+  address: localhost
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    password: rkQl7373!
+    url: jdbc:mysql://localhost:3306/syk-jpa?serverTimezone=UTC&characterEncoding=UTF-8
+
+    username: root
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
+    show-sql: true
+
+    properties:
+      hibernate:
+        format_sql: true
+
+    hibernate:
+      ddl-auto: create
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace

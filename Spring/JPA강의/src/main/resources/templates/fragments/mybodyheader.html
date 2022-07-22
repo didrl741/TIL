@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header" th:fragment="bodyHeader">
+  <ul class="nav nav-pills pull-right">
+    <li><a href="/">Home</a></li>
+  </ul>
+  <a href="/"><h3 class="text-muted">BOARD</h3></a>
+
+  <div th:if="${session.loginedUserName==null}"href="users/login">
+    <a href="/users/login">로그인</a>
+    <a href="/users/new">회원가입</a>
+  </div>
+
+  <div th:if="${session.loginedUserName!=null}">
+    <a href="users/logout">로그아웃 하기</a>
+    <p th:text="|${session.loginedUserName} 님, 반가워요|"></p>
+  </div>
+
+</div>
