@@ -77,3 +77,5 @@
 <br/>
 
 # 결과 캡쳐
+![스프링부트](https://user-images.githubusercontent.com/97036481/180595197-593ec1ac-8852-4cf8-b238-9fa2ec10c9ab.png)
+- 해당 글 작성자만 그 글을 삭제할 수 있다.
