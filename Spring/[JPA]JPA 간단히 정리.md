@@ -97,12 +97,17 @@ transaction.commit(); // 트랜잭션 커밋
 ```
 - 참고: em.flush()는 영속 컨텍스트를 비우지 않는다.
 
+![20220727_141327](https://user-images.githubusercontent.com/97036481/181173941-9c049534-c2f0-41b9-a76f-f9530940f7e1.png)
+
+
 </br>
 </br>
 
 ## 3. 변경 감지
 - member.setName()하면 영속컨텍스트에 자동으로 반영됨.
 - 원리: db에서 가져온 직후의 엔티티의 정보를 기록해둔 '스냅샷'과 현재 엔티티를 비교해서 달라진것이 있으면 쓰기지연 SQL저장소에 UPDATE SQL 넣어둠.
+
+![변경감지](https://user-images.githubusercontent.com/97036481/181173975-59f34d84-9704-423a-9716-61f0414c0a2f.png)
 
 </br>
 </br>
