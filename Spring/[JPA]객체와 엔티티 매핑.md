@@ -129,10 +129,121 @@ public class Member {
 - 이 조건을 만족하는 자연키(예: 주민번호)는 찾기 힘들다. 대체키를 사용하자. (비즈니스로직을 키로 끌고오면 안됨)
 - 권장 : Long + 대체키 + `@GeneratedValue` 사용(`IDENTITY` 또는 `SEQUENCE` 사용하자)
 
+</br>
+
+</br>
+
 # **2. 연관관계 매핑**
 
+- 객체를 테이블이 맞추어 모델링하지 말자
+    - 예를 들어, Member 엔티티에 필드로 TeamId를 놓으면 안 된다.
+    - 협력관계를 만들 수 없다. Member가 속한 Team을 구하고싶을 때 em.find()를 두 번 써야한다.
+
+</br>
+
+# 2-1. 단방향 연관관계
+
+- Member
+```java
+@Entity
+@Getter @Setter
+public class Member {
+
+    @Id @GeneratedValue()
+    @Column(name = "member_id")
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+}
+```
+- Team
+```java
+@Entity
+@Getter @Setter
+public class Team {
+
+    @Id @GeneratedValue()
+    @Column(name = "team_id")
+    private Long id;
+}
+```
+
+</br>
+
+# 2-2. 양방향 연관관계
+
+- Member : 위와 같다.
+
+- Team
+```java
+@Entity
+@Getter @Setter
+public class Team {
+
+    @Id @GeneratedValue()
+    private Long id;
+
+    @OneToMany(mappedBy = "team")
+    List<Member> members = new ArrayList<Member>();
+}
+```
+
+</br>
+
+## 연관관계의 주인
+
+- `mappedBy` = JPA에서 가장 어려운 부분!
+
+- 테이블의 양방향 연관관계 : MEMBER.TEAM_ID 외래 키 하나로 **양방향** 연관관계 가짐 (양쪽으로 조인할 수 있다.)
+
+```SQL
+SELECT * FROM MEMBER M
+JOIN TEAM T ON M.TEAM_ID = T.TEAM_ID
+
+SELECT *
+FROM TEAM T
+JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
+```
+
+- 객체의 양방향 관계 : 사실 서로 다른 단방향 관계 2개. (Member클래스에는 Team 필드, Team클래스에는 members 필드)
+
+- Member클래스의 Team과 Team클래스의 members중 **누구를 수정했을 때 db의 외래키가 바뀌게** 해야할까?
+    - db의 외래 키가 있는쪽을 주인으로 정하자. (다 쪽)
+    - 두 관계중 하나를 연관관계의 주인으로 지정하여 외래 키로 관리해야 한다.   
+    - 연관관계의 **주인만 외래 키를 관리**(등록, 수정)
+    - 주인이 아닌쪽은 `mappedBy` 속성으로 주인을 지정하며 **읽기만 가능**
+    - `members`를 아무리 만져봐야 db가 변경되지 않는다.
+
+</br>
+
+## 연관관계 편의 메서드
+- 순수 객체 상태를 고려해서 항상 양쪽에 값을 설정하자
+- 연관관계 편의 메서드 생성
+- 무한루프 조심.
+- 다 쪽에 만들지 일 쪽에 만들지는 상황마다 다르다. 다 쪽에 만들 경우 코드 :
+
+```java
+    public void setTeam(Team team) {
+        this.team = team;
+        team.getMembers.add(this);
+    }
+```
+
+</br>
+
+## 정리
+
+- 단방향 매핑만으로도 이미 연관관계 매핑은 완료된다. (테이블 완료)
+- 일단 단방향 매핑을 하고, 나중에 반대방향 조회가 필요할 때 양방향으로 업데이트 하자.
+
+</br>
 
 # **3. 다양한 연관관계 매핑**
+
+</br>
 
 
 # **4. 고급 매핑**
