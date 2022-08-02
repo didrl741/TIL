@@ -171,6 +171,8 @@ public class Team {
 }
 ```
 
+- 가장 많이 사용하는 연관관계다.
+
 </br>
 
 # 2-2. 양방향 연관관계
@@ -190,6 +192,7 @@ public class Team {
     List<Member> members = new ArrayList<Member>();
 }
 ```
+- Team에서 속한 Member들 조회할 일이 필요할 때에 업그레이드 해주면 된다.
 
 </br>
 
@@ -238,12 +241,110 @@ JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
 
 - 단방향 매핑만으로도 이미 연관관계 매핑은 완료된다. (테이블 완료)
 - 일단 단방향 매핑을 하고, 나중에 반대방향 조회가 필요할 때 양방향으로 업데이트 하자.
+- `@ManyToOne` 주요 속성
+
+| Option | Description | Default |
+|:--:|:--:|:--:|
+| fetch | 글로벌 페치 전략을 설정 | @ManyToOne=FetchType.EAGER  </br> @OneToMany=FetchType.LAZY |
+| cascade | 영속성 전이 기능을 사용 |  |
+
+
+</br>
+
+- `@OneToMany` 주요 속성
+
+| Option | Description | Default |
+|:--:|:--:|:--:|
+| mappedBy | 연관관계 주인 필드를 선택 |  |
+| fetch | 글로벌 페치 전략을 설정 | @ManyToOne=FetchType.EAGER  </br> @OneToMany=FetchType.LAZY |
+| cascade | 영속성 전이 기능을 사용 |  |
+
 
 </br>
 
 # **3. 다양한 연관관계 매핑**
 
+# 3-1. 일대다
+
+- 다대일이 앞서 설명했던, `Member`클래스에 `Team` 필드가 있는 관계.
+- 일대다는 '일'이 연관관계의 주인이다 (`Team`)
+- `Team` 객체의 `members` 리스트를 수정하면 db의 `MEMBER`의 외래 키를 `UPDATE` 해야된다 (어색해진다. 큰 단점)
+- 단점이 많다. 다대일을 사용하자.
+
+```java
+@OneToMany
+@JoinColumn(name = "TEAM_ID")
+private List<Member> members = new ArrayList<>();
+```
+- 위와 같이 `@JoinColumn`을 꼭 써줘야 한다.
+
 </br>
+
+</br>
+
+# 3-2. 일대일
+
+- 똑같이, 외래키가 있는 곳이 연관관계의 주인.
+- 외래 키에 유니크 제약조건 필요
+
+## 주 테이블에 외래 키 (MEMBER 테이블에 LOCKER_ID)
+
+- 객체지향 개발자 선호
+- JPA 매핑 편리
+- 장점: 주 테이블만 조회해도 대상 테이블에 데이터가 있는지 확인 가능
+- 단점: 값이 없으면 외래 키에 null 허용
+- 영한님이 선호하는 방식.
+
+```java
+@Entity
+public class Member {
+
+    @Id @GeneratedValue()
+    @Column(name = "member_id")
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "locker_id")
+    private Locker locker;
+}
+```
+
+```java
+@Entity
+public class Locker {
+
+    @Id @GeneratedValue()
+    @Column(name = "locker_id")
+    private Long id;
+
+    // 양방향일 경우 추가
+    @OneToOne(mappedBy = "locker")
+    private Member member;
+}
+```
+
+## 대상 테이블에 외래 키
+
+- 대상 테이블에 외래 키가 존재
+- 전통적인 데이터베이스 개발자 선호
+- 장점: 주 테이블과 대상 테이블을 일대일에서 일대다 관계로 변경할 때 테이블 구조 유지
+- 단점: 프록시 기능의 한계로 지연 로딩으로 설정해도 항상 즉시 로딩됨
+
+</br>
+
+</br>
+
+# 3-3. 다대다
+
+- 실무에서는 다대다 관계를 쓰지 않는다. (`@ManyToMany`)
+- RDB는 테이블 2개로 다애다 관계 표현 불가.
+- 연결 테이블을 추가해서 일대다, 다대일 관계로 풀어야한다.
+- 그러기 위해 연결 테이블용 엔티티를 추가해야한다.
+
+</br>
+
+</br>
+
 
 
 # **4. 고급 매핑**
