@@ -364,6 +364,8 @@ public class Locker {
 
 ## 1. 통합 테이블로 변환 -> 단일 테이블 전략
 
+![단일](https://user-images.githubusercontent.com/97036481/182797772-56097747-7704-4ee9-b6f5-9cef08dd00e4.png)
+
 - 객체관계와 RDB 그림
 
 
@@ -411,6 +413,7 @@ public class Book extends Item {
 ## 2. 각각 테이블로 변환 -> 조인 전략
 
 - 객체관계와 RDB 그림
+![조인](https://user-images.githubusercontent.com/97036481/182797817-3c6a28e4-b72f-441e-aab6-cbcd91630238.png)
 
 
 - 코드 (나머지는 위와 같다)
@@ -438,6 +441,7 @@ public class Book extends Item {
 ## 3. 서브타입 테이블로 변환 -> 구현 클래스마다 테이블 전략
 
 - 객체관계와 RDB 그림
+![구현클래스마다](https://user-images.githubusercontent.com/97036481/182797848-9ff004ff-bb84-4efc-a1db-94fe7f7c3275.png)
 
 
 - 조인 전략에서 ITEM 테이블을 없애고 밑으로 내렸다고 생각하면 쉽다.
@@ -451,6 +455,9 @@ public class Book extends Item {
 # @MappedSuperclass
 
 - 그림
+
+![mapped](https://user-images.githubusercontent.com/97036481/182797877-76ab7956-2110-46e5-b0fb-6fdc4941ffb6.png)
+
 
 - 코드
 
