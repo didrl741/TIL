@@ -346,5 +346,138 @@ public class Locker {
 </br>
 
 
-
 # **4. 고급 매핑**
+
+# 상속관계 매핑
+
+- 객체는 상속관계가 있지만, RDB는 상속 관계가 없다!
+- 슈퍼타입 서브타입 관계가 객체의 상속과 유사
+
+- @Inheritance(strategy=InheritanceType.XXX)
+- SINGLE_TABLE: 단일 테이블 전략
+- JOINED: 조인 전략
+- TABLE_PER_CLASS: 구현 클래스마다 테이블 전략
+
+</br>
+
+</br>
+
+## 1. 통합 테이블로 변환 -> 단일 테이블 전략
+
+- 객체관계와 RDB 그림
+
+
+
+- Item (부모)
+```java
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="dtype")          # 안 써줘도 디폴트로 생성
+public abstract class Item {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "item_id")
+    private  Long id;
+
+    private String name;
+    private int price;
+    private int stockQuantity;
+}
+```
+
+- Book (자식중 하나)
+```java
+@Entity
+@DiscriminatorValue("B")
+public class Book extends Item {
+
+    private String author;
+    private String isbn;
+}
+```
+- 장점:
+    - 조인이 필요 없으므로 조회 성능 빠름
+    - 조회 쿼리 단순
+- 단점:
+    - 자식 엔티티가 매핑한 컬럼은 모두 null 허용
+    - 테이블이 커질 수 있다. -> 상황에 따라 조회 성능이 오히려 느려질 수 있다.
+
+
+</br>
+
+</br>
+
+## 2. 각각 테이블로 변환 -> 조인 전략
+
+- 객체관계와 RDB 그림
+
+
+- 코드 (나머지는 위와 같다)
+
+```java
+@Inheritance(strategy = InheritanceType.JOINED)
+```
+
+- 장점:
+    - 테이블 정규화
+    - 외래 키 참조 무결성 제약조건 활용가능(아직 이해 X)
+    - 저장공간 효율화
+- 단점:
+    - 조회시 JOIN 많이 사용 -> 성능 저하
+    - 조회 쿼리 복잡
+    - 데이터 저장시 INSERT 쿼리 2번 호출
+
+
+</br>
+
+</br>
+
+
+
+## 3. 서브타입 테이블로 변환 -> 구현 클래스마다 테이블 전략
+
+- 객체관계와 RDB 그림
+
+
+- 조인 전략에서 ITEM 테이블을 없애고 밑으로 내렸다고 생각하면 쉽다.
+- DB 설계자와 ORM 전문가 둘 다 싫어하는 전략.
+- 여러 자식 테이블을 함께 조회할 때 성능이 느림(UNION SQL 필요)
+
+## 4. 정리
+- 단순한 프로젝트면 단일 테이블 
+- 보통의 프로젝트라면 조인 테이블 사용
+
+# @MappedSuperclass
+
+- 그림
+
+- 코드
+
+```java
+@MappedSuperclass
+@Getter @Setter
+public class BaseEntity {
+    
+    private String createdBy;
+    private LocalDateTime createdDate;
+}
+
+...
+
+
+@Entity
+@Getter @Setter
+public class Member extends BaseEntity {
+    ...
+}
+```
+
+- 공통 매핑 정보가 필요할 때 사용(id, name)
+- 상속관계 매핑X, 엔티티X, 테이블과 매핑X
+- 부모 클래스를 상속 받는 자식 클래스에 매핑 정보만 제공
+- 조회, 검색 불가(em.find(BaseEntity) 불가)
+- 직접 생성해서 사용할 일이 없으므로 추상 클래스 권장
+- 테이블과 관계 없고, 단순히 엔티티가 공통으로 사용하는 매핑정보를 모으는 역할
+- 주로 등록일, 수정일, 등록자, 수정자 같은 전체 엔티티에서 공통으로 적용하는 정보를 모을 때 사용
+- 참고: @Entity 클래스는 엔티티나 @MappedSuperclass로 지정한 클래스만 상속 가능

@@ -2,6 +2,7 @@ package study.jpastudy.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import study.jpastudy.domain.item.Item;
 
 import javax.persistence.*;
 
