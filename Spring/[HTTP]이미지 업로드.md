@@ -213,4 +213,9 @@ public class ImageController {
 
 - 업로드
 
+![업로드](https://user-images.githubusercontent.com/97036481/183282297-2ee7f2ab-ee51-4f02-8a3a-07aa7791cab1.png)
+
 - 조회
+
+![조회](https://user-images.githubusercontent.com/97036481/183282303-abec6e95-e2e0-4b19-a766-7f13f8520348.png)
+
