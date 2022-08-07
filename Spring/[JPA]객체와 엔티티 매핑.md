@@ -261,6 +261,8 @@ JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
 
 
 </br>
+</br>
+
 
 # **3. 다양한 연관관계 매핑**
 
@@ -448,9 +450,13 @@ public class Book extends Item {
 - DB 설계자와 ORM 전문가 둘 다 싫어하는 전략.
 - 여러 자식 테이블을 함께 조회할 때 성능이 느림(UNION SQL 필요)
 
+</br>
+
 ## 4. 정리
 - 단순한 프로젝트면 단일 테이블 
 - 보통의 프로젝트라면 조인 테이블 사용
+
+</br>
 
 # @MappedSuperclass
 
