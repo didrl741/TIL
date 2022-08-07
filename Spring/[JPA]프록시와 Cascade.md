@@ -63,6 +63,7 @@ public class Post {
 - 프록시 객체의 초기화
     - 그림과 같이, 메서드를 호출 시 강제 초기화가 된다. (SELECT 쿼리가 그때서야 나간다)
 
+    ![초기화](https://user-images.githubusercontent.com/97036481/183278597-c6f797d8-115b-4489-9e59-edf691383b9c.png)
 
 
     - 프록시는 처음 사용할 때 처음 한 번만 초기화.
