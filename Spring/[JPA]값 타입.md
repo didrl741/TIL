@@ -228,6 +228,11 @@ public class Member{
 
 ## 그림 및 테이블 구성
 
+![값타입컬렉션](https://user-images.githubusercontent.com/97036481/183468578-df5bb9fb-7446-4988-a4c9-5301eccdb6b4.png)
+![member](https://user-images.githubusercontent.com/97036481/183468689-f0ff6891-5227-4cf0-bf7c-85c2df6afde4.png)
+![food](https://user-images.githubusercontent.com/97036481/183468703-5318653b-2c1c-43f7-8ede-74becdc8c90a.png)
+![address](https://user-images.githubusercontent.com/97036481/183468713-2bc43aab-6844-42a4-82c2-7ea1efd71e60.png)
+
 
 <br>
 <br>
@@ -315,6 +320,7 @@ public class AddressEntity {
 
 - 이제 `AddressEntity` 엔티티는 db에서 본인의 pk를 갖기 때문에 추적과 관리가 용이하다.
 
+![마지막](https://user-images.githubusercontent.com/97036481/183468771-9ecb4776-b238-48af-a713-2e1014b898b3.png)
 
 
 <br>
