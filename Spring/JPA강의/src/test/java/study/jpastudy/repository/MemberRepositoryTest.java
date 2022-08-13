@@ -11,6 +11,8 @@ import study.jpastudy.domain.Member;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -19,15 +21,6 @@ class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
 
-    @Test
-    @Rollback(value = false)
-    public void 임베디드테스트() throws Exception {
-
-        Member member = new Member();
-        member.setAddress(new Address("hi", "hello", "bye"));
-
-        memberRepository.save(member);
-    }
 
     @Test
     public void 값타입비교() throws Exception {
@@ -61,43 +54,114 @@ class MemberRepositoryTest {
 
     }
 
+//    @Test
+//    @Rollback(value = false)
+//    public void 값타입컬렉션() throws Exception {
+//        Member member = new Member();
+//
+//        member.getAddressHistory().add(new AddressEntity("hi", "hello", "bye"));
+//        member.getAddressHistory().add(new AddressEntity("hihihi", "hello", "bye"));
+//
+//        memberRepository.save(member);
+//        member.getFaboriteFoods().add("족발");
+//        member.getFaboriteFoods().add("피자");
+//
+//        System.out.println("==============");
+//
+//
+//        member.getFaboriteFoods().remove("족발");
+//        member.getFaboriteFoods().add("한식");
+//
+//        member.getAddressHistory().remove(new AddressEntity("hi", "hello", "bye"));
+//        member.getAddressHistory().add(new AddressEntity("newCity", "hello", "bye"));
+//
+//        memberRepository.save(member);
+//    }
+
+//    @Test
+//    public void 엔티티컬렉션() throws Exception {
+//        Member member = new Member();
+//
+//        member.getAddressHistory().add(new AddressEntity("hi", "hello", "bye"));
+//        member.getAddressHistory().add(new AddressEntity("hihihi", "hello", "bye"));
+//
+//        memberRepository.save(member);
+//
+//    }
+
     @Test
-    @Rollback(value = false)
-    public void 값타입컬렉션() throws Exception {
-        Member member = new Member();
+    public void JPQL테스트() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20);
 
-        member.getAddressHistory().add(new AddressEntity("hi", "hello", "bye"));
-        member.getAddressHistory().add(new AddressEntity("hihihi", "hello", "bye"));
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10);
 
-        memberRepository.save(member);
-        member.getFaboriteFoods().add("족발");
-        member.getFaboriteFoods().add("피자");
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
 
-        System.out.println("==============");
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        List<Member> memberOver18s = memberRepository.findMemberOver18();
+
+        //then
+        for(Member member: memberOver18s) {
+            System.out.println("member === > "+ member.getName());
+        }
+    }
 
 
-        member.getFaboriteFoods().remove("족발");
-        member.getFaboriteFoods().add("한식");
+    @Test
+    public void JPQL테스트2() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20);
 
-        member.getAddressHistory().remove(new AddressEntity("hi", "hello", "bye"));
-        member.getAddressHistory().add(new AddressEntity("newCity", "hello", "bye"));
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10);
 
-        memberRepository.save(member);
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
 
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
 
+        //when
+        List<String> memberNames = memberRepository.findMemberName();
+
+        //then
+        for(String memberName: memberNames) {
+            System.out.println("member === > "+ memberName);
+        }
     }
 
     @Test
-    @Rollback(value = false)
-    public void 엔티티컬렉션() throws Exception {
-        Member member = new Member();
+    public void JPQL_findByName() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20);
 
-        member.getAddressHistory().add(new AddressEntity("hi", "hello", "bye"));
-        member.getAddressHistory().add(new AddressEntity("hihihi", "hello", "bye"));
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10);
 
-        memberRepository.save(member);
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
 
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
 
+        //when
+        List<Member> members = memberRepository.findByName("song");
 
+        //then
+        for(Member member: members) {
+            System.out.println("member === > "+ member.getName());
+        }
     }
 }

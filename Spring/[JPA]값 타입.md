@@ -178,15 +178,18 @@ System.out.println(str3.equals((str4)));    // false (값 다름)
 
 ...
 
-// 재정의
+// 재정의 : Alt + Ins 로 equals()와 hashCode()를 재정의할 수 있다 (프록시 문제가 안생기도록 get으로 하자!)
 @Override
 public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-
     Address address = (Address) o;
-    return Objects.equals(city, address.city) &&
-            Objects.equals(street, address.street) &&Objects.equals(zipcode, address.zipcode);
+    return Objects.equals(getCity(), address.getCity()) && Objects.equals(getStreet(), address.getStreet()) && Objects.equals(getZipcode(), address.getZipcode());
+}
+
+@Override
+public int hashCode() {
+    return Objects.hash(getCity(), getStreet(), getZipcode());
 }
 
 // 이제, 아래를 다시 돌려보면

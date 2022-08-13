@@ -94,7 +94,7 @@ public class Member {
 ## 방법
 - 직접 할당 : `@Id`만 사용
 - 자동 생성 : `@GeneratedValue`
-- 1. IDENTITY : db에 위임, MYSQL (auto - increament)
+1. IDENTITY : db에 위임, MYSQL (auto - increament)
     - `em.persist()` 하는 시점에 바로 `INSERT` SQL을 날린다!
     - db에 넣어야 id값이 생성되기 때문.
 ```java
@@ -103,7 +103,7 @@ public class Member {
 private Long id;
 ```
 
-- 2. SEQUENCE : db 시퀀스 오브젝트 사용, ORACLE. `@SequenceGenerator` 필요
+2. SEQUENCE : db 시퀀스 오브젝트 사용, ORACLE. `@SequenceGenerator` 필요
     - db 시퀀스 오브젝트는 유일한 값을 순서대로 생성하는 특별한 db 오브젝트.
     - `allocationSize` : 성능 최적화에 도움(기본값 50: 50번째마다만 db 들어가서 갱신)
 
@@ -121,8 +121,8 @@ public class Member {
 }
 ```
 
-- 3. TALBE : 키 생성용 테이블 사용, 모든 DB에서 사용 가능 but 성능이슈. `@TableGenerator` 필요
-- 4. AUTO : 방언에 따라 자동 지정, 기본값.
+3. TALBE : 키 생성용 테이블 사용, 모든 DB에서 사용 가능 but 성능이슈. `@TableGenerator` 필요
+4. AUTO : 방언에 따라 자동 지정, 기본값.
 
 ## 권장하는 전략
 - 조건: null 아님, 유일, 변하면 안된다.

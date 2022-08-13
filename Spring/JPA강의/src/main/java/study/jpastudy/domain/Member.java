@@ -2,6 +2,8 @@ package study.jpastudy.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +22,8 @@ public class Member extends BaseEntity {
 
     private String name;
 
+    private int age;
+
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
 
@@ -30,8 +34,7 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "locker_id")
     private Locker locker;
 
-    @Embedded
-    private Address address;
+
 
     // 값 타입 컬렉션
     @ElementCollection
@@ -47,4 +50,15 @@ public class Member extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "member_id")
     private List<AddressEntity> addressHistory = new ArrayList<AddressEntity>();
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    // 연관관계 편의 메서드
+    public void setTeam(Team team) {
+        this.team = team;
+        team.getMembers().add(this);
+    }
 }
