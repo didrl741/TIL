@@ -7,6 +7,7 @@ import org.springframework.test.annotation.Rollback;
 import study.jpastudy.domain.Address;
 import study.jpastudy.domain.AddressEntity;
 import study.jpastudy.domain.Member;
+import study.jpastudy.domain.MemberDTO;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -20,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
-
 
     @Test
     public void 값타입비교() throws Exception {
@@ -164,4 +164,54 @@ class MemberRepositoryTest {
             System.out.println("member === > "+ member.getName());
         }
     }
+
+    @Test
+    public void JPQL_findNameAge() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        Object[] nameAndAge = memberRepository.findNameAge();
+
+        //then
+        System.out.println("name = " + nameAndAge[0]);
+        System.out.println("age = " + nameAndAge[1]);
+    }
+
+    @Test
+    public void JPQL_findNameAgeByNew() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+
+        //when
+        List<MemberDTO> nameAndAgeList = memberRepository.findNameAgeByNew();
+
+        //then
+        for(MemberDTO memberDTO: nameAndAgeList) {
+            System.out.println("member === > "+ memberDTO.getName() + memberDTO.getAge());
+        }
+    }
+
 }

@@ -74,7 +74,7 @@ List<Member> resultList = em.createNativeQuery(sql, Member.class).getResultList(
 - JPA를 사용하면서 JDBC 커넥션을 직접 사용하거나, 스프링 JdbcTemplate, 마이바티스등을 함께 사용 가능
 - 단 영속성 컨텍스트를 적절한 시점에 강제로 플러시 필요
 
-# 기본 문법과 쿼리 API
+# JPQL 기본 문법과 쿼리 API
 
 ## 기본 문법
 
@@ -136,9 +136,77 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
                 .getResultList();
     }
 ```
+## 중요사항
+
+- **위와 같이 JPQL로 select 쿼리의 결과로 받은 List<Member>의 Member들은 모두 영속성 컨텍스트에서 관리된다!!**
 
 # 프로젝션(SELECT)
 
+## 프로젝션이란?
+
+- : `SELECT` 절에 조회할 대상을 지정하는 것
+- RDB는 숫자, 문자 등 기본 데이터 타입만 지정할 수 있는데 반해서 JPQL은 다양하게 가능.
+
+## 프로젝션 대상: **엔티티, 임베디드 타입, 스칼라 타입**(숫자, 문자등 기본 데이터 타입)
+
+- `SELECT m FROM Member m` -> 엔티티 프로젝션
+
+- `SELECT m.team FROM Member m` -> 엔티티 프로젝션
+    - `SELECT t FROM Member m join m.team t ` 로 쓰는게 더 낫다.
+- `SELECT m.address FROM Member m` -> 임베디드 타입 프로젝션
+ -> 스칼라 타입 프로젝션
+- `DISTINCT`로 중복 제거 가능.
+
+## 여러 값 조회
+
+- `SELECT m.username, m.age FROM Member m`
+
+1. `Query` 타입으로 조회 (타입이 명확하지 않기 때문)
+
+```java
+public Object[] findNameAge() {
+    List resultList = em.createQuery("select m.name, m.age from Member m")
+            .getResultList();
+    Object o = resultList.get(0);
+    Object[] result = (Object[]) o;
+    return result;
+}
+```
+
+2. `Object[]` 타입으로 조회
+
+```java
+public Object[] findNameAge() {
+    List<Object[]> resultList = em.createQuery("select m.name, m.age from Member m")
+            .getResultList();
+    Object[] o = resultList.get(0);
+    return o;
+}
+```
+
+3. new 명령어로 조회 (**추천!**)
+
+- 우선 `List`에 담을 `DTO` 만들자 (생성자 필요)
+
+```java
+@Getter @Setter
+@AllArgsConstructor
+public class MemberDTO {
+
+    private String name;
+    private int age;
+}
+```
+- 그 후 조회할 때 `new`로 `DTO`를 생성하며 받아오자
+
+```java
+public List<MemberDTO> findNameAgeByNew() {
+    List<MemberDTO> resultList = em.createQuery("select new study.jpastudy.domain.MemberDTO(m.name, m.age) from Member m", MemberDTO.class)
+            .getResultList();
+
+    return resultList;
+    }
+```
 
 # 페이징
 

@@ -3,6 +3,7 @@ package study.jpastudy.repository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import study.jpastudy.domain.Member;
+import study.jpastudy.domain.MemberDTO;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -32,6 +33,20 @@ public class MemberRepository {
         return em.createQuery("select m from Member m where m.name = :givenName", Member.class)
                 .setParameter("givenName", name1)
                 .getResultList();
+    }
+
+    public Object[] findNameAge() {
+        List<Object[]> resultList = em.createQuery("select m.name, m.age from Member m")
+                .getResultList();
+        Object[] o = resultList.get(0);
+        return o;
+    }
+
+    public List<MemberDTO> findNameAgeByNew() {
+        List<MemberDTO> resultList = em.createQuery("select new study.jpastudy.domain.MemberDTO(m.name, m.age) from Member m", MemberDTO.class)
+                .getResultList();
+
+        return resultList;
     }
 
 
