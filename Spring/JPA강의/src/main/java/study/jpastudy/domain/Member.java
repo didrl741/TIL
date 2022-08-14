@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -60,5 +61,24 @@ public class Member extends BaseEntity {
     public void setTeam(Team team) {
         this.team = team;
         team.getMembers().add(this);
+    }
+
+    @Override
+    public String toString() {
+
+        if (team == null) {
+            return "Member{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    '}';
+        }
+        else {
+            return "Member{" +
+                    "name='" + name + '\'' +
+                    ", age=" + age +
+                    ", team=" + team.getName() +
+                    '}';
+        }
+
     }
 }

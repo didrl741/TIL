@@ -4,10 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import study.jpastudy.domain.Address;
-import study.jpastudy.domain.AddressEntity;
-import study.jpastudy.domain.Member;
-import study.jpastudy.domain.MemberDTO;
+import study.jpastudy.domain.*;
 
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
@@ -21,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberRepositoryTest {
 
     @Autowired MemberRepository memberRepository;
+    @Autowired TeamRepository teamRepository;
 
     @Test
     public void 값타입비교() throws Exception {
@@ -214,4 +212,93 @@ class MemberRepositoryTest {
         }
     }
 
+
+    @Test
+    public void JPQL_findByPaging() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(10);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(20);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
+
+        Member member4 = new Member();
+        member4.setName("ki"); member4.setAge(50);
+
+        Member member5 = new Member();
+        member5.setName("Leeef"); member5.setAge(60);
+
+        Member member6 = new Member();
+        member6.setName("Leem"); member6.setAge(70);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+        memberRepository.save(member5);
+        memberRepository.save(member6);
+
+        //when
+        List<Member> members = memberRepository.findMemberByPaging();
+
+        //then
+        for(Member member: members) {
+            System.out.println(member);
+        }
+    }
+
+    @Test
+    public void JPQL_Join() throws Exception {
+        //given
+        Team dream = new Team(); dream.setName("dream");
+        Team happy = new Team(); happy.setName("happy");
+        Team devil = new Team(); devil.setName("devil");
+
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20); member1.setTeam(dream);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10); member2.setTeam(dream);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30); member3.setTeam(happy);
+
+        Member member4 = new Member();
+        member4.setName("jo"); member4.setAge(50);
+
+        teamRepository.save(dream);
+        teamRepository.save(happy);
+        teamRepository.save(devil);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+
+        //when
+        // List<Member> members = memberRepository.findAll(); 이것과의 차이가 뭐지??
+        List<Member> members = memberRepository.findByInnerJoin();
+
+        //then
+        for(Member member: members) {
+            System.out.println(member);
+        }
+
+        List<Member> members2 = memberRepository.findByOuterJoin();
+
+        //then
+        for(Member member: members2) {
+            System.out.println(member);
+        }
+
+        List<Member> members3 = memberRepository.findByTeamJoin("dream");
+
+        //then
+        for(Member member: members3) {
+            System.out.println(member);
+        }
+    }
 }

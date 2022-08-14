@@ -13,7 +13,7 @@
 - 네이티브 SQL: 특정 db에 종속적인 쿼리가 필요할 때.
 - JDBC API 직접 사용, MyBatis, SpringJdbcTemplate 함께 사용
 
-## JPQL
+## 1. JPQL
 
 - em.find() 말고, 특정 조건의 엔티티만 검색하고싶다면?
 - 애플리케이션이 필요한 데이터만 DB에서 불러오려면 결국 검색 조건이 포함된 SQL이 필요
@@ -31,7 +31,7 @@ public List<Member> findMemberOver18() {
 }
 ```
 
-## queryDSL
+## 2. queryDSL
 
 - 문자가 아닌 자바코드로 `JPQL`을 작성할 수 있음
 - JPQL 빌더 역할
@@ -53,13 +53,13 @@ List<Member> list = query.selectFrom(m)
 - 셋팅이 빡세지만 한번 해두면 편하다 (나중에 제대로 후술)
 
 
-## Criteria
+## 3. Criteria
 - 문자가 아닌 자바코드로 JPQL을 작성할 수 있음
 - JPQL 빌더 역할,  JPA 공식 기능
 - 단점: **너무 복잡하고 실용성이 없다.**, 동적 쿼리를 해결하기 너무 힘들다.
 - `Criteria` 대신에 `QueryDSL` 사용 권장
 
-## 네이티브 SQL
+## 4. 네이티브 SQL
 
 - JPA가 제공하는 SQL을 직접 사용하는 기능
 - JPQL로 해결할 수 없는 특정 데이터베이스에 의존적인 기능
@@ -69,10 +69,15 @@ String sql = “SELECT ID, AGE, TEAM_ID, NAME FROM MEMBER WHERE NAME = ‘kim’
 List<Member> resultList = em.createNativeQuery(sql, Member.class).getResultList();
 ```
 
-## JDBC 직접 사용, SpringJdbcTemplate 등
+## 5. JDBC 직접 사용, SpringJdbcTemplate 등
 
 - JPA를 사용하면서 JDBC 커넥션을 직접 사용하거나, 스프링 JdbcTemplate, 마이바티스등을 함께 사용 가능
 - 단 영속성 컨텍스트를 적절한 시점에 강제로 플러시 필요
+
+<br>
+<br>
+
+
 
 # JPQL 기본 문법과 쿼리 API
 
@@ -84,6 +89,10 @@ List<Member> resultList = em.createNativeQuery(sql, Member.class).getResultList(
 - JPQL 키워드는 대소문자 구분X (`SELECT`, `FROM`, `where`)
 - **엔티티 이름 사용**, 테이블 이름이 아님(`Member`)
 - 별칭은 필수(m) (as는 생략가능)
+
+<br>
+<br>
+
 
 ## TypeQuery, Query
 
@@ -101,6 +110,10 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
 // String과 int가 서로 다르기때문에 타입을 명기할 수 없다.
 ```
 
+<br>
+<br>
+
+
 ## 결과 조회 API
 
 - `query.getResultList()`: 결과가 하나 이상일 때, 리스트 반환
@@ -110,6 +123,10 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
     - 결과가 없으면: javax.persistence.NoResultException
     - 둘 이상이면: javax.persistence.NonUniqueResultException
     - 나중에 spring data jpa에서는 예외처리 해주는것 배운다.
+
+
+<br>
+<br>
 
 
 ## 파라미터 바인딩
@@ -140,12 +157,20 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
 
 - **위와 같이 JPQL로 select 쿼리의 결과로 받은 List<Member>의 Member들은 모두 영속성 컨텍스트에서 관리된다!!**
 
+<br>
+<br>
+
+
 # 프로젝션(SELECT)
 
 ## 프로젝션이란?
 
 - : `SELECT` 절에 조회할 대상을 지정하는 것
 - RDB는 숫자, 문자 등 기본 데이터 타입만 지정할 수 있는데 반해서 JPQL은 다양하게 가능.
+
+<br>
+<br>
+
 
 ## 프로젝션 대상: **엔티티, 임베디드 타입, 스칼라 타입**(숫자, 문자등 기본 데이터 타입)
 
@@ -156,6 +181,10 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
 - `SELECT m.address FROM Member m` -> 임베디드 타입 프로젝션
  -> 스칼라 타입 프로젝션
 - `DISTINCT`로 중복 제거 가능.
+
+<br>
+<br>
+
 
 ## 여러 값 조회
 
@@ -208,10 +237,86 @@ public List<MemberDTO> findNameAgeByNew() {
     }
 ```
 
+<br>
+<br>
+
+
 # 페이징
+
+## API
+
+- `setFirstResult(int startPosition)` : **조회 시작 위치** (0부터 시작)
+- `setMaxResults(int maxResult)` : **조회할 데이터 수**
+
+
+<br>
+<br>
+
+
+## 예시
+
+```java
+public List<Member> findMemberByPaging() {
+    return em.createQuery("select m from Member m order by m.age desc ", Member.class)
+            .setFirstResult(1)      // default = 0
+            .setMaxResults(2)
+            .getResultList();
+}
+```
+
+- age가 1, 2, 3, 4, 5, 6인 `Member`들이 db에 있었다면 나이가 5, 4인 엔티티가 리스트에 담긴다.
+- 각 db에 맞는 방언에 맞게 알아서 쿼리가 나간다.
+
+<br>
+<br>
 
 
 # 조인
+
+## 조인이란?
+
+- 두개 이상의 테이블에 대해서 결합하여 나타낼 때 사용
+- ON : 조인 대상 필터링, 연관관계 없는 엔티티 외부 조인
+
+## 1. Inner JOIN
+
+- `SELECT m FROM Member m JOIN m.team t`
+- 두 테이블의 교집합 ( Member & Team )
+
+- 쉬운 예시
+
+```java
+public List<Member> findByTeamJoin(String teamName) {
+        return em.createQuery("select m from Member m join m.team t on t.name = :givenName", Member.class)
+                .setParameter("givenName", teamName)
+                .getResultList();
+    }
+```
+
+<br>
+<br>
+
+
+## 2. Outer JOIN
+
+- `SELECT m FROM Member m LEFT JOIN m.team t`
+- 왼쪽 테이블 ( Member )
+
+- `A LEFT JOIN B` 와 `B RIGHT JOIN A`는 완전히 같은 식이다. 
+
+<br>
+<br>
+
+
+## 3. 세타 JOIN ( Cross JOIN )
+
+- 연관관계가 없을 때 사용.
+` select m from Member m, Team t where m.username = t.name`
+` select m from Member m join Team t on m.username = t.name`
+
+
+<br>
+<br>
 
 
 # 서브 쿼리

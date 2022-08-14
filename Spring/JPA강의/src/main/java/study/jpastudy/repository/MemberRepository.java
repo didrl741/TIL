@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import study.jpastudy.domain.Member;
 import study.jpastudy.domain.MemberDTO;
+import study.jpastudy.domain.Team;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -18,10 +19,14 @@ public class MemberRepository {
         em.persist(member);
     }
 
+    public List<Member> findAll() {
+        String jpql = "select m From Member m";
+        return em.createQuery(jpql, Member.class).getResultList();
+    }
+
     public List<Member> findMemberOver18() {
         String jpql = "select m From Member m where m.age > 18";
         return em.createQuery(jpql, Member.class).getResultList();
-
     }
 
     public List<String> findMemberName() {
@@ -49,6 +54,28 @@ public class MemberRepository {
         return resultList;
     }
 
+    public List<Member> findMemberByPaging() {
+        return em.createQuery("select m from Member m order by m.age desc ", Member.class)
+                .setFirstResult(1)
+                .setMaxResults(2)
+                .getResultList();
+    }
+
+    public List<Member> findByInnerJoin() {
+        return em.createQuery("select m from Member m join m.team t", Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findByOuterJoin() {
+        return em.createQuery("select m from Member m left join m.team t", Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findByTeamJoin(String teamName) {
+        return em.createQuery("select m from Member m join m.team t on t.name = :givenName", Member.class)
+                .setParameter("givenName", teamName)
+                .getResultList();
+    }
 
     // QueryDSL 사용
 //    public List<Member> findMemberOver18queryDSL() {
