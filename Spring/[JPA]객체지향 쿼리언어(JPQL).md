@@ -321,11 +321,75 @@ public List<Member> findByTeamJoin(String teamName) {
 
 # 서브 쿼리
 
+- 아직 이해가 잘 안 간다. 나중에 다시 정리하자.
+
+## 예시
+
+- 나이가 평균보다 많은 회원
+- `select m from Member m where m.age > (select avg(m2.age) from Member m2)`
+
+- 한 건이라도 주문한 고객
+- `select m from Member m where (select count(o) from Order o where m = o.member) > 0`
+
+## EXISTS : 서브쿼리에 결과가 존재하면 참
+
+- 팀A 소속인 회원
+
+- `select m from Member m where exists (select t from m.team t where t.name = ‘팀A')`
+
+## ALL : 모두 만족하면 참
+
+- 전체 상품 각각의 재고보다 주문량이 많은 주문들
+
+- `select o from Order o where o.orderAmount > ALL (select p.stockAmount from Product p)`
+
+## ANY, SOME : 하나라도 만족하면 참
+
+- 어떤 팀이든 팀에 소속된 회원
+
+- `select m from Member m where m.team = ANY (select t from Team t)`
+
+## IN : 서브쿼리의 결과 중 하나라도 같은 것이 있으면 참
+
+## JPA 서브쿼리의 한계
+- `FROM` 절의 서브 쿼리는 현재 `JPQL`에서 불가능
+    - 조인으로 풀 수 있으면 풀어서 해결
+
+
+<br>
+<br>
+
 
 # JPQL 타입 표현과 기타식
 
+- 아직 써보지 않아서 와닿지 않는다. 나중에 필요할 때 다시 보자.
+
+## 타입 표현
+- 문자: `‘HELLO’`, `'She’’s'`
+- 숫자: `10L`(Long), `10D`(Double), `10F`(Float)
+- Boolean: `TRUE`, `FALSE`
+- ENUM: `jpabook.MemberType.Admin` (패키지명 포함)
+    - `select m from Member m where m.type = jpql.MemberType.ADMIN`
+- 엔티티 타입: `TYPE(m) = Member` (상속 관계에서 사용)
+    - `select i from Item i where type(i) = Book`
+
+## SQL과 문법이 같은 식 (표준 SQL 문법은 거의 다 지원)
+
+- EXISTS, IN
+- AND, OR, NOT
+- =, >, >=, <, <=, <>
+- BETWEEN, LIKE, IS NULL
+
+<br>
+<br>
+
 
 # 조건식
+
+- 여기부터는 나중에 필요할 때 강의듣고 정리..
+
+<br>
+<br>
 
 
 # JPQL 함수

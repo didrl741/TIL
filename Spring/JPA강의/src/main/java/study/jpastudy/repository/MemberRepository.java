@@ -77,6 +77,18 @@ public class MemberRepository {
                 .getResultList();
     }
 
+    public List<Member> findOlderMember() {
+        return em.createQuery("select m from Member m where m.age > ( select avg(m2.age) from Member m2)"
+                        , Member.class)
+                .getResultList();
+    }
+
+    public List<Member> findTeamMember() {
+        return em.createQuery("select m from Member m where exists (select t from m.team t where t.name = 'dream')"
+                        , Member.class)
+                .getResultList();
+    }
+
     // QueryDSL 사용
 //    public List<Member> findMemberOver18queryDSL() {
 //        JPAFactoryQuery query = new JPAQueryFactory(em);

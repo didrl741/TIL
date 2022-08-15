@@ -301,4 +301,79 @@ class MemberRepositoryTest {
             System.out.println(member);
         }
     }
+
+    @Test
+    public void JPQL_findOlderMember() throws Exception {
+        //given
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(10);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(20);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30);
+
+        Member member4 = new Member();
+        member4.setName("ki"); member4.setAge(50);
+
+        Member member5 = new Member();
+        member5.setName("Leeef"); member5.setAge(60);
+
+        Member member6 = new Member();
+        member6.setName("Leem"); member6.setAge(70);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+        memberRepository.save(member5);
+        memberRepository.save(member6);
+
+        //when
+        List<Member> members = memberRepository.findOlderMember();
+
+        //then
+        for(Member member: members) {
+            System.out.println(member);
+        }
+    }
+
+    @Test
+    public void JPQL_subquery() throws Exception {
+        //given
+        Team dream = new Team(); dream.setName("dream");
+        Team happy = new Team(); happy.setName("happy");
+        Team devil = new Team(); devil.setName("devil");
+
+        Member member1 = new Member();
+        member1.setName("song"); member1.setAge(20); member1.setTeam(dream);
+
+        Member member2 = new Member();
+        member2.setName("kim"); member2.setAge(10); member2.setTeam(dream);
+
+        Member member3 = new Member();
+        member3.setName("Lee"); member3.setAge(30); member3.setTeam(happy);
+
+        Member member4 = new Member();
+        member4.setName("jo"); member4.setAge(50);
+
+        teamRepository.save(dream);
+        teamRepository.save(happy);
+        teamRepository.save(devil);
+
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+        memberRepository.save(member3);
+        memberRepository.save(member4);
+
+        //when
+        // List<Member> members = memberRepository.findAll(); 이것과의 차이가 뭐지??
+        List<Member> members = memberRepository.findTeamMember();
+
+        //then
+        for(Member member: members) {
+            System.out.println(member);
+        }
+    }
 }
