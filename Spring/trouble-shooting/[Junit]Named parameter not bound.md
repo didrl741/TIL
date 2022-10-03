@@ -10,22 +10,22 @@ org.springframework.dao.InvalidDataAccessResourceUsageException: Named parameter
 email이라는 파라미터가 바인딩되지 않았다는 것인데, 우선 먼저 작성했던 코드를 보자.
 
 ```java
-    public List<User> findByEmail(String email) {
-        List<User> result = em.createQuery("select u from User u where u.userEmail = :email", User.class)
-                .getResultList();
-        return result;
-    }
+public List<User> findByEmail(String email) {
+    List<User> result = em.createQuery("select u from User u where u.userEmail = :email", User.class)
+            .getResultList();
+    return result;
+}
 ```
 
 # 해결
 아래와 같이 setparameter 메서드를 호출해서 파라미터를 바인딩해줬다.
 ```java
-    public List<User> findByEmail(String email) {
-        List<User> result = em.createQuery("select u from User u where u.userEmail = :email", User.class)
-                .setParameter("email", email)
-                .getResultList();
-        return result;
-    }
+public List<User> findByEmail(String email) {
+    List<User> result = em.createQuery("select u from User u where u.userEmail = :email", User.class)
+            .setParameter("email", email)
+            .getResultList();
+    return result;
+}
 ```
 ## 참고
 ### **EntityManager.createQuery("JPQL", 엔티티)**    

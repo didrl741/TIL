@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    password: #######################################
+    password: rkQl7373!
     url: jdbc:mysql://localhost:3306/syk-jpa?serverTimezone=UTC&characterEncoding=UTF-8
 
     username: root

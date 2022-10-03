@@ -59,10 +59,10 @@
 
 ## html 코드
 ```html
-   <img src="/img/like_empty.png"
-         th:myTitle="${post.title}"
-         onclick="myFunc2(this.getAttribute('myTitle'))"
-    >
+<img src="/img/like_empty.png"
+        th:myTitle="${post.title}"
+        onclick="myFunc2(this.getAttribute('myTitle'))"
+>
 
 ...
 
@@ -90,9 +90,9 @@
 
 ## html 코드
 ```html
-   <img src="/img/like_empty.png" 
-         th:onclick="myFunc2(${message})"
-    >
+<img src="/img/like_empty.png" 
+        th:onclick="myFunc2(${message})"
+>
 
 ...
 
@@ -139,13 +139,13 @@
 ## 컨트롤러
 
 ```java
-    @PostMapping("/items/{postId}/like")
-    public String likePost(@PathVariable("postId") Long postId) {
+@PostMapping("/items/{postId}/like")
+public String likePost(@PathVariable("postId") Long postId) {
 
-        // 원하는 로직 실행
+    // 원하는 로직 실행
 
-        return "redirect:/";
-    }
+    return "redirect:/";
+}
 ```
 
 

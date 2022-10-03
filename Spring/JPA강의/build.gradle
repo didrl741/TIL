@@ -36,6 +36,19 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+//	// POI (excel 읽기위한)
+//	// https://mvnrepository.com/artifact/org.apache.poi/poi
+//	implementation group: 'org.apache.poi', name: 'poi'
+//	implementation group: 'org.apache.poi', name: 'poi-ooxml'
+//	// https://mvnrepository.com/artifact/org.apache.tika/tika-core
+//	implementation group: 'org.apache.tika', name: 'tika-core'
+
+	// https://mvnrepository.com/artifact/org.apache.poi/poi
+	implementation group: 'org.apache.poi', name: 'poi', version: '5.2.2'
+	// https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.2.2'
+
+
 }
 
 tasks.named('test') {

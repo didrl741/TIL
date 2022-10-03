@@ -30,11 +30,11 @@
 ## upLoadImage.html
 
 ```html
-    <form action="/uploadImage" method="post" enctype="multipart/form-data">
-        <input type="file" name = "files">
-        <!-- 여기서 files는 controller에 @RequestPart MultipartFile files -->
-        <button type="submit" class="btn btn-dark">업로드</button>
-    </form>
+<form action="/uploadImage" method="post" enctype="multipart/form-data">
+    <input type="file" name = "files">
+    <!-- 여기서 files는 controller에 @RequestPart MultipartFile files -->
+    <button type="submit" class="btn btn-dark">업로드</button>
+</form>
 ```
 
 - 업로드 버튼을 누르면 `"/uploadImage"` URI로 POST Request를 보낸다.
@@ -174,28 +174,28 @@ public class ImageController {
 ## showImage.html
 
 ```html
-        <table class="table table-striped">
-            <thead>
+<table class="table table-striped">
+    <thead>
 
-            <tr>
-                <th>이미지 번호</th>
-                <th>이름</th>
-                <th>이미지</th>
-            </tr>
+    <tr>
+        <th>이미지 번호</th>
+        <th>이름</th>
+        <th>이미지</th>
+    </tr>
 
-            </thead>
-            <tbody>
-            <tr th:each="file : ${files}">
+    </thead>
+    <tbody>
+    <tr th:each="file : ${files}">
 
-                <td th:text="${file.id}"></td>
-                <td th:text="${file.fileOriName}"></td>
-                <td>
-                    <img th:src="${'/img/'+ file.filename}" style="width:300px;height:auto;">
-                </td>
+        <td th:text="${file.id}"></td>
+        <td th:text="${file.fileOriName}"></td>
+        <td>
+            <img th:src="${'/img/'+ file.filename}" style="width:300px;height:auto;">
+        </td>
 
-            </tr>
-            </tbody>
-        </table>
+    </tr>
+    </tbody>
+</table>
 ```
 
 <br>

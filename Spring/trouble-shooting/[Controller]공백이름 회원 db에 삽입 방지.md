@@ -9,38 +9,38 @@
 # 해결
 ### 이전의 코드
 ```java
-    public String create(@Valid UserForm userForm, BindingResult result) {
+public String create(@Valid UserForm userForm, BindingResult result) {
 
-        User user = new User();
+    User user = new User();
 
-        user.setUserName(userForm.getName());
-        user.setUserPassword(userForm.getPassword());
-        user.setUserEmail(userForm.getEmail());
+    user.setUserName(userForm.getName());
+    user.setUserPassword(userForm.getPassword());
+    user.setUserEmail(userForm.getEmail());
 
-        userService.join(user);
-        return "users/createUserForm";
-    }
+    userService.join(user);
+    return "users/createUserForm";
+}
 ```
 
 이전의 코드를 보면 userForm이 뭐가오든 join을 실행하여 db에 저장했다.
 
 ### 이후의 코드
 ```java
-    public String create(@Valid UserForm userForm, BindingResult result) {
+public String create(@Valid UserForm userForm, BindingResult result) {
 
-        if (userForm.getName().length() == 0 || userForm.getPassword().length() == 0) {
-            return "users/createUserForm";
-        }
-
-        User user = new User();
-
-        user.setUserName(userForm.getName());
-        user.setUserPassword(userForm.getPassword());
-        user.setUserEmail(userForm.getEmail());
-
-        userService.join(user);
-        return "redirect:/";
+    if (userForm.getName().length() == 0 || userForm.getPassword().length() == 0) {
+        return "users/createUserForm";
     }
+
+    User user = new User();
+
+    user.setUserName(userForm.getName());
+    user.setUserPassword(userForm.getPassword());
+    user.setUserEmail(userForm.getEmail());
+
+    userService.join(user);
+    return "redirect:/";
+}
 ```
 따라서 userForm에 부적절한 데이터가 오면 검증하는 코드를 삽입해서 해결했다.   
 또, userForm이 적절할 시 db에 저장함과 동시에 이전의 페이지로 돌아가게 했다.

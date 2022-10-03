@@ -229,10 +229,10 @@ JOIN MEMBER M ON T.TEAM_ID = M.TEAM_ID
 - 다 쪽에 만들지 일 쪽에 만들지는 상황마다 다르다. 다 쪽에 만들 경우 코드 :
 
 ```java
-    public void setTeam(Team team) {
-        this.team = team;
-        team.getMembers.add(this);
-    }
+public void setTeam(Team team) {
+    this.team = team;
+    team.getMembers.add(this);
+}
 ```
 
 </br>

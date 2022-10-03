@@ -137,21 +137,21 @@ Query query = em.createQuery("SELECT m.username, m.age from Member m");
 
 ```java
 // Repository
-    public List<Member> findByName(String name1) {
-        return em.createQuery("select m from Member m where m.name = :givenName", Member.class)
-                .setParameter("givenName", name1)
-                .getResultList();
-    }
+public List<Member> findByName(String name1) {
+    return em.createQuery("select m from Member m where m.name = :givenName", Member.class)
+            .setParameter("givenName", name1)
+            .getResultList();
+}
 ```
 
 - 위치 기준: (왠만하면 쓰지 말자!!)
 ```java
 // Repository
-    public List<Member> findByName(String name1) {
-        return em.createQuery("select m from Member m where m.name = ?1", Member.class)
-                .setParameter(1, name1)
-                .getResultList();
-    }
+public List<Member> findByName(String name1) {
+    return em.createQuery("select m from Member m where m.name = ?1", Member.class)
+            .setParameter(1, name1)
+            .getResultList();
+}
 ```
 ## 중요사항
 

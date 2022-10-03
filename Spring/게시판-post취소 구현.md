@@ -8,11 +8,11 @@
 > 배치 부분
 
 ```html
-  <td>
-      <a th:if="${post.getUser().getUserName() == session.loginedUserName}" href="#"
-          th:href="'javascript:cancel('+${post.id}+')'"
-          class="btn btn-danger">삭제하기</a>
-  </td>
+<td>
+    <a th:if="${post.getUser().getUserName() == session.loginedUserName}" href="#"
+        th:href="'javascript:cancel('+${post.id}+')'"
+        class="btn btn-danger">삭제하기</a>
+</td>
 ```
 - 게시글이 현재 **세션의 아이디와 일치하는 경우에만** 삭제하기 버튼이 보인다.
 - 삭제하기 버튼을 누를 시, JS의 cancel이라는 함수가 실행된다.
@@ -40,11 +40,11 @@
 ## PostController
 
 ```java
-   @PostMapping("/items/{postId}/cancel")
-    public String cancelPost(@PathVariable("postId") Long postId) {
-        postService.cancelPost(postId);
-        return "redirect:/items";
-    }
+@PostMapping("/items/{postId}/cancel")
+public String cancelPost(@PathVariable("postId") Long postId) {
+    postService.cancelPost(postId);
+    return "redirect:/items";
+}
 ```
 - PostService에 취소기능을 위임한다.
 
@@ -54,10 +54,10 @@
 ## PostService
 
 ```java
-    @Transactional
-    public void cancelPost(Long postId) {
-        postRepository.cancelOne(postId);
-    }
+@Transactional
+public void cancelPost(Long postId) {
+    postRepository.cancelOne(postId);
+}
 ```
 - PostRepository에 취소기능을 위임한다.
 - 엔티티를 삭제하는 함수이므로 **@Transactional** 필수!!
@@ -67,10 +67,10 @@
 ## PostRepository
 
 ```java
-  public void cancelOne(Long postId) {
-      Post post = findOne(postId);
-      em.remove(post);
-  }
+public void cancelOne(Long postId) {
+    Post post = findOne(postId);
+    em.remove(post);
+}
 ```
 - EntityManager에서 직접 db의 엔티티를 삭제한다.
 

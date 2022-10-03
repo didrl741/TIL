@@ -45,27 +45,27 @@ public String submit(HttpServletRequest req){
 ## 유저컨트롤러 코드
 > 로그인 구현
 ```java
-    @PostMapping("/users/login")
-    public String login(@Valid UserForm userForm, BindingResult result, HttpSession session, HttpServletRequest request, Model model) {
+@PostMapping("/users/login")
+public String login(@Valid UserForm userForm, BindingResult result, HttpSession session, HttpServletRequest request, Model model) {
 
-        if (userForm.getName().length() == 0 || userForm.getPassword().length() == 0) {
-            return "users/login";
-        }
-
-        Map<String, Object> rs = userService.checkLoginAvailable(userForm);
-
-        String resultCode = (String) rs.get("resultCode");
-        String msg = (String) rs.get("msg");
-
-        if (resultCode.startsWith("S")) {
-            session.setAttribute("loginedUserName", userForm.getName());
-            return "redirect:/";
-        } else {
-            model.addAttribute("msg", msg);
-            return "users/login";
-        }
-
+    if (userForm.getName().length() == 0 || userForm.getPassword().length() == 0) {
+        return "users/login";
     }
+
+    Map<String, Object> rs = userService.checkLoginAvailable(userForm);
+
+    String resultCode = (String) rs.get("resultCode");
+    String msg = (String) rs.get("msg");
+
+    if (resultCode.startsWith("S")) {
+        session.setAttribute("loginedUserName", userForm.getName());
+        return "redirect:/";
+    } else {
+        model.addAttribute("msg", msg);
+        return "users/login";
+    }
+
+}
 ```
 로그인에 성공하면 HttpSession에 인증정보객체 loginedUserName 를 추가합니다.   
 로그인에 실패하면 Model 객체에 실패 메시지를 추가하여 alert를 호출합니다.
@@ -87,27 +87,27 @@ public String submit(HttpServletRequest req){
 
 ## 유저서비스 코드
 ```html
-    public Map<String, Object> checkLoginAvailable(UserForm userForm) {
-        Map<String, Object> rs = new HashMap<String, Object>();
+public Map<String, Object> checkLoginAvailable(UserForm userForm) {
+    Map<String, Object> rs = new HashMap<String, Object>();
 
-        List<User> users = userRepository.findByName(userForm.getName());
+    List<User> users = userRepository.findByName(userForm.getName());
 
-        if (users.isEmpty()) {
-            rs.put("resultCode", "F-1");
-            rs.put("msg", "해당 회원이 존재하지 않습니다.");
-            log.info("해당 회원이 존재하지 않습니다");
-        } else if (users.get(0).getUserPassword().equals(userForm.getPassword()) == false ) {
-            rs.put("resultCode", "F-2");
-            rs.put("msg", "비밀번호가 일치하지 않습니다.");
-            log.info("비밀번호가 일치하지 않습니다.");
-        } else {
-            rs.put("resultCode", "S-1");
-            rs.put("msg", "로그인에 성공했습니다.");
-            log.info("로그인 성공");
-        }
-
-        return rs;
+    if (users.isEmpty()) {
+        rs.put("resultCode", "F-1");
+        rs.put("msg", "해당 회원이 존재하지 않습니다.");
+        log.info("해당 회원이 존재하지 않습니다");
+    } else if (users.get(0).getUserPassword().equals(userForm.getPassword()) == false ) {
+        rs.put("resultCode", "F-2");
+        rs.put("msg", "비밀번호가 일치하지 않습니다.");
+        log.info("비밀번호가 일치하지 않습니다.");
+    } else {
+        rs.put("resultCode", "S-1");
+        rs.put("msg", "로그인에 성공했습니다.");
+        log.info("로그인 성공");
     }
+
+    return rs;
+}
 ```
 로그인 정보를 담고있는 UserForm 객체를 전달받아서, 현재 로그인이 가능한지 판단해주는 함수입니다.   
 결과코드 및 메시지를 **HashMap**에 저장하여 유저 컨트롤러에 전달합니다.   
@@ -116,12 +116,12 @@ public String submit(HttpServletRequest req){
 
 ## home.html 코드
 ```html
-  <div th:if="${session.loginedUserName==null}"href="users/login">로그인하러가기</div>
+<div th:if="${session.loginedUserName==null}"href="users/login">로그인하러가기</div>
 
-  <div th:if="${session.loginedUserName!=null}">
-    <a href="users/logout">로그아웃 하기</a>
-    <p th:text="|${session.loginedUserName} 님, 반가워요|"></p>
-  </div>
+<div th:if="${session.loginedUserName!=null}">
+<a href="users/logout">로그아웃 하기</a>
+<p th:text="|${session.loginedUserName} 님, 반가워요|"></p>
+</div>
 ```
 현재 로그인되어있는 경우 로그아웃 버튼과 회원명을 출력하여 보여줍니다.   
 현재 로그아웃 상황일 경우에는 로그인 버튼을 보여줍니다.
@@ -130,11 +130,11 @@ public String submit(HttpServletRequest req){
 
 ## login.html 코드
 ```html
-    <div th:if="${not #strings.isEmpty(msg)}">
-        <script>
-            top.alert("[[${msg}]]");
-        </script>
-    </div>
+<div th:if="${not #strings.isEmpty(msg)}">
+    <script>
+        top.alert("[[${msg}]]");
+    </script>
+</div>
 ```
 로그인 실패시 실패 이유를 alert를 이용해여 팝업창으로 출력합니다.
 

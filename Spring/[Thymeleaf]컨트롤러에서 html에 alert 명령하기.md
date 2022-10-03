@@ -4,10 +4,10 @@
 
 ### 컨트롤러 코드
 ```java
-    else {
-            model.addAttribute("msg", msg);
-            return "users/login";
-    }
+else {
+        model.addAttribute("msg", msg);
+        return "users/login";
+}
 ```
 위 코드와 같이 특정 상황에서만 msg라는 객체를 전달했다 (msg는 String 객체이다)
 

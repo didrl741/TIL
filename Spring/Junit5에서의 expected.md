@@ -2,38 +2,38 @@
 코드는 User객체의 중복이메일을 체크하는 테스트이다.
 ## junit4 에서의 코드
 ```java
-    @Test(expected = IllegalStateException.class )
-    public void 중복이메일() throws Exception {
-        //given
-        User user1 = new User();
-        user1.setUserEmail("didrl741@naver.com");
-        userService.join(user1);
+@Test(expected = IllegalStateException.class )
+public void 중복이메일() throws Exception {
+    //given
+    User user1 = new User();
+    user1.setUserEmail("didrl741@naver.com");
+    userService.join(user1);
 
-        //when
-        User user2 = new User();
-        user2.setUserEmail("didrl741@naver.com");
-        userService.join(user2);
-    }
+    //when
+    User user2 = new User();
+    user2.setUserEmail("didrl741@naver.com");
+    userService.join(user2);
+}
 ```
 
 ## junit5 에서의 코드
 ```java
-    @Test
-    public void 중복이메일() throws Exception {
-        //given
-        User user1 = new User();
-        user1.setUserEmail("didrl741@naver.com");
-        userService.join(user1);
+@Test
+public void 중복이메일() throws Exception {
+    //given
+    User user1 = new User();
+    user1.setUserEmail("didrl741@naver.com");
+    userService.join(user1);
 
-        //when
-        User user2 = new User();
-        user2.setUserEmail("didrl741@naver.com");
+    //when
+    User user2 = new User();
+    user2.setUserEmail("didrl741@naver.com");
 
-        //then
-        assertThrows(IllegalStateException.class, () -> {
-            userService.join(user2);
-        });
-    }
+    //then
+    assertThrows(IllegalStateException.class, () -> {
+        userService.join(user2);
+    });
+}
 ```
 
 

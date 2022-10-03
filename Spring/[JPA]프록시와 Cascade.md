@@ -71,11 +71,11 @@ public class Post {
     - 타입 체크시 주의 : (== 말고 instance of 사용하자)
 
     ```java
-            Member m1 = em.find(Member.class, member1.getId());
-            Member m2 = em.getReference(Member.class, member2.getId());
+    Member m1 = em.find(Member.class, member1.getId());
+    Member m2 = em.getReference(Member.class, member2.getId());
 
-            System.out.println(m1.getClass() == m2.getClass());     // false
-            System.out.println(m2 instanceof Member);     // true
+    System.out.println(m1.getClass() == m2.getClass());     // false
+    System.out.println(m2 instanceof Member);     // true
     ```
 
     - 영속컨텍스트에 이미 그 엔티티가 있으면 `getReference()` 해도 실제 엔티티 반환. (JPA에서는 같은 트랜잭션 안에서 == 하면 true 보장)
