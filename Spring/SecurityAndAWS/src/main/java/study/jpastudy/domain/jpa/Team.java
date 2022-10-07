@@ -1,8 +1,7 @@
-package study.jpastudy.domain;
+package study.jpastudy.domain.jpa;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -1,13 +1,10 @@
-package study.jpastudy.domain;
+package study.jpastudy.domain.jpa;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
-import org.springframework.lang.Nullable;
+import study.jpastudy.domain.BaseTimeEntity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Getter @Setter
-public class Member extends BaseEntity {
+public class Member extends BaseTimeEntity {
 
     @Id @GeneratedValue()
     @Column(name = "member_id")

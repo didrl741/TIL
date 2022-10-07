@@ -2,7 +2,7 @@ package study.jpastudy.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import study.jpastudy.domain.Team;
+import study.jpastudy.domain.jpa.Team;
 
 import javax.persistence.EntityManager;
 

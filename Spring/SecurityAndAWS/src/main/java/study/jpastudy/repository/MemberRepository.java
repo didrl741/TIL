@@ -2,9 +2,8 @@ package study.jpastudy.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import study.jpastudy.domain.Member;
-import study.jpastudy.domain.MemberDTO;
-import study.jpastudy.domain.Team;
+import study.jpastudy.domain.jpa.Member;
+import study.jpastudy.domain.jpa.MemberDTO;
 
 import javax.persistence.EntityManager;
 import java.util.List;

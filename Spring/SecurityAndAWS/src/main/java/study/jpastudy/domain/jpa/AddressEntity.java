@@ -1,4 +1,4 @@
-package study.jpastudy.domain;
+package study.jpastudy.domain.jpa;
 
 import lombok.*;
 
