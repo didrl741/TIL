@@ -1,0 +1,24 @@
+// 시큐리티
+implementation 'org.springframework.boot:spring-boot-starter-security'
+testImplementation 'org.springframework.security:spring-security-test'
+
+// 타임리프
+implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+// 타임리프와 시큐리티 연결 (태그 sec을 사용하기 위함)
+implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+// OAuth2. 시큐리티와 뭐가 다른거지?
+implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+// 이메일 발송 방법1
+implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+// 이메일 발송 방법2
+implementation 'com.sun.mail:javax.mail'
+
+
+
+// google
+implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.2.2'
+implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'

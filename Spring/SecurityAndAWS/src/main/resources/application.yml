@@ -21,6 +21,9 @@ spring:
     hibernate:
       ddl-auto: create
 
+  profiles:
+    include: oauth
+
 logging:
   level:
     # org.hibernate.SQL: debug

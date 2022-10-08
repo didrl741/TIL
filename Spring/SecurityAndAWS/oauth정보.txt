@@ -1,0 +1,5 @@
+클라이언트 ID
+978049439170-rl79b556uqmti68nmgvtqc3fcq0lkaja.apps.googleusercontent.com
+
+클라이언트 보안 비번
+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
