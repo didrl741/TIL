@@ -15,11 +15,11 @@ public class Posts extends BaseTimeEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 500, nullable = false)
+    @Column(length = 500)
     private String title;
 
     // varchar는 255 제한이기 때문에 더 긴 글이 필요할 때..
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String content;
 
     private String author;
@@ -35,4 +35,5 @@ public class Posts extends BaseTimeEntity {
         this.title = title;
         this.content = content;
     }
+
 }

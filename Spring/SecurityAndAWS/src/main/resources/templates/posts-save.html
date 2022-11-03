@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
+<form th:action="@{/api/v1/posts/save}" th:object="${postsSaveRequestDto}" method="post" enctype="multipart/form-data" >
 
+    <div class="form-group">
+        <label th:for="text">입력칸</label>
+
+        <textarea name="textarea" style="width:500px;height:250px;"
+                  th:field="*{title}" class="form-control"
+                  placeholder="제목을 입력하세요"></textarea>
+
+        <textarea name="textarea" style="width:500px;height:250px;"
+                  th:field="*{content}" class="form-control"
+                  placeholder="내용을 입력하세요"></textarea>
+
+        <textarea name="textarea" style="width:500px;height:250px;"
+                  th:field="*{author}" class="form-control"
+                  placeholder="저자를 입력하세요"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">등록</button>
+</form>
 </body>
 </html>

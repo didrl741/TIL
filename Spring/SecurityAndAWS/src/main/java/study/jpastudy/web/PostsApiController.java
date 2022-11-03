@@ -30,4 +30,10 @@ public class PostsApiController {
     public PostsResponseDto findById(@PathVariable Long id) {
         return postsService.findById(id);
     }
+
+    // 조회. @RequestBody 없다.
+    @GetMapping("/api/v2/posts/all")
+    public String findAll() {
+        return "hi";
+    }
 }

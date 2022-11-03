@@ -3,9 +3,10 @@ package study.jpastudy.web.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import study.jpastudy.domain.posts.Posts;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostsSaveRequestDto {
