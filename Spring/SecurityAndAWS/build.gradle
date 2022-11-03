@@ -41,6 +41,9 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
+	// for db session 연동
+	implementation 'org.springframework.session:spring-session-jdbc'
 }
 
 tasks.named('test') {
