@@ -38,12 +38,14 @@ dependencies {
 
 	// 스프링 시큐리티
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	testImplementation 'org.springframework.security:spring-security-test'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	// for db session 연동
 	implementation 'org.springframework.session:spring-session-jdbc'
+
+	// for security가 적용된 test
+	testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {

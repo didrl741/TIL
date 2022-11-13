@@ -4,12 +4,16 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+@MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(controllers = HelloController.class)
 class HelloControllerTest {
 
@@ -17,6 +21,7 @@ class HelloControllerTest {
     MockMvc mvc;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void hello리턴() throws Exception {
 
         String hello = "hello";
@@ -27,6 +32,7 @@ class HelloControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void hello_dto_테스트() throws Exception {
 
         String name = "song";
